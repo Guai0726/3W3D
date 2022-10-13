@@ -1,0 +1,93 @@
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>hw1</title>
+</head>
+
+<body>
+    <a href="../index.html" style="text-decoration: none">
+        <p style="text-align: center; font-size: 44px; font-weight: bold; color:rgb(20, 170, 120); margin: 2vh;">
+            HW1 Xmas Lights
+        </p>
+    </a>
+    <img src="tree.jpg"style="display: block;position:absolute;left: 0;right: 0; margin: 0 auto;height: 85vh; width: 85vh;">
+    <div id="bkgd"style="display: block;position:absolute;left: 0;right: 0; margin: 0 auto;height: 85vh; width: 85vh;"> 
+        <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+        <script type="text/javascript">
+            var powerOn = true;
+
+            $('#power').click(function () {
+                powerOn = !powerOn;
+
+                if (powerOn === true) {  // false--> true
+                    lamps.forEach(function (item) { item.startBlink(); });
+                }
+            });
+
+            class Lamp {
+
+                constructor(name) {
+                    this.name = name + Lamp.id++;
+                    this.myStatus = false;
+
+                    let el = document.createElement('div');
+                    el.id = this.name;
+                    let bkgd = document.getElementById('bkgd');
+                    bkgd.appendChild(el);
+                    this.hue = Math.random() * 360;
+
+                    // styles
+                    el.setAttribute("style", `background-color: hsl(${this.hue}, 90%, 50%); width:5%;height:5%;border-radius:50%`);
+                    this.left = Math.random();
+                    this.top = Math.random();
+                    el.style.position = "absolute";
+                    let abc = Math.random();
+                    el.style.left = this.left * 75 + '%';
+                    el.style.top = 10 + this.top * 75 + '%';
+                }
+
+                toggle() {
+                    this.myStatus = !this.myStatus;
+
+                    if (powerOn) {
+                        setTimeout(() => { this.toggle(); }, 500);
+                    }
+
+                    if (this.myStatus === true) {
+                        $('#' + this.name).css('backgroundColor', `hsl(${this.hue},90%,80%)`);
+
+                    } else {
+                        $('#' + this.name).css('backgroundColor', `hsl(${this.hue},90%,24%)`);
+
+                    }
+                }
+
+                startBlink() {
+                    var that = this;
+                    /*   
+                        setInterval(function() {
+                          that.toggle();
+                        }, 500);
+                    */
+                    setTimeout(() => { this.toggle(); }, 0);
+
+                    //setInterval (that.toggle, 500);   // somehow, it does not work
+                }
+            }
+
+
+            Lamp.id = 0; // class variable
+            lamps = [];
+
+            for (let i = 0; i < 10; i++) {
+                let ll = new Lamp('light');
+                lamps.push(ll);
+            }
+
+            lamps.forEach(function (ll) { ll.startBlink(); });
+
+        </script>
+</body>
+
+</html>
