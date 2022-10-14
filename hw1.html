@@ -51,10 +51,10 @@
                     this.myStatus = !this.myStatus;
 
                     if (powerOn) {
-                        setTimeout(() => { this.toggle(); }, 500);
+                        setTimeout(() => { this.toggle(); }, abcd);
                     }
 
-                    if (this.myStatus === true) {
+                    if (this.myStatus === true&& $('#power').text() === 'ON') {
                         $('#' + this.name).css('backgroundColor', `hsl(${this.hue},90%,80%)`);
 
                     } else {
@@ -65,11 +65,11 @@
 
                 startBlink() {
                     var that = this;
-                    /*   
-                        setInterval(function() {
+                       
+                    /*    setInterval(function() {
                           that.toggle();
-                        }, 500);
-                    */
+                        }, 500);*/
+                    
                     setTimeout(() => { this.toggle(); }, 0);
 
                     //setInterval (that.toggle, 500);   // somehow, it does not work
@@ -79,7 +79,7 @@
 
             Lamp.id = 0; // class variable
             lamps = [];
-
+            abcd = 500;
             for (let i = 0; i < 10; i++) {
                 let ll = new Lamp('light');
                 lamps.push(ll);
@@ -88,6 +88,66 @@
             lamps.forEach(function (ll) { ll.startBlink(); });
 
         </script>
+        </div>
+        <div style="position: absolute; margin: 0 auto; height: 85vh; min-height:38px; width: 30vh; min-width: auto; left: 118vh; right: 0;">
+            <div>
+                <p style="font-size: 24px; margin: 12px auto;">開關 : 
+                    <button id="power" style="background-color:rgb(200, 200, 200);" onclick="power()">ON</button>
+                </p>
+            </div>
+            <div>
+                <p style="font-size: 24px; margin: 12px auto;">同步 : 
+                    <button id="sync" style="background-color:rgb(200, 200, 200);" onclick="sync()">ON</button>
+                </p>
+            </div>
+            <div>
+                <p style="font-size: 24px; margin: 12px auto;">閃爍週期 : 
+                    <button id="dutyCycleA" style="background-color:rgb(100, 100, 100);" onclick="dutyCycle()">0.5s</button>
+                    <button id="dutyCycleB" style="background-color:rgb(200, 200, 200);" onclick="dutyCycle()">1~2s</button>
+                </p>
+            </div>
+            <script>
+                function power() {
+                    if ($('#power').text() === 'ON') {
+                        $('#power').text('OFF');
+                        $('#power').css({'background-color': 'rgb(100, 100, 100)'});
+                    } else {
+                        $('#power').text('ON');
+                        $('#power').css({'background-color': 'rgb(200, 200, 200)'});
+                    }
+                    lights.forEach(element => {
+                        element.flick = false;
+                        element.toggleLight();
+                    });
+                }
+    
+                function sync() {
+                    if ($('#sync').text() === 'ON') {
+                        $('#sync').text('OFF');
+                        $('#sync').css({'background-color': 'rgb(100, 100, 100)'});
+                    } else {
+                        $('#sync').text('ON');
+                        $('#sync').css({'background-color': 'rgb(200, 200, 200)'});
+                    }
+                    lights.forEach(element => {
+                        element.delay = ($('#sync').text() === 'ON') ? 0 : Math.random() * 500;
+                        element.startBlink();
+                    });
+                }
+    
+                function dutyCycle() {
+                    if ($('#dutyCycleA').css('background-color') === 'rgb(100, 100, 100)') {
+                        $('#dutyCycleA').css({'background-color': 'rgb(200, 200, 200)'});
+                        $('#dutyCycleB').css({'background-color': 'rgb(100, 100, 100)'});
+                        abcd = (1 + Math.random()) * 1000;
+                    } else {
+                        $('#dutyCycleA').css({'background-color': 'rgb(100, 100, 100)'});
+                        $('#dutyCycleB').css({'background-color': 'rgb(200, 200, 200)'});
+                        abcd = 500;
+                    }
+                    
+                }
+            </script>
 </body>
 
 </html>
