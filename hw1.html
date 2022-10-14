@@ -120,20 +120,7 @@
                         element.toggleLight();
                     });
                 }
-    
-                function sync() {
-                    if ($('#sync').text() === 'ON') {
-                        $('#sync').text('OFF');
-                        $('#sync').css({'background-color': 'rgb(100, 100, 100)'});
-                    } else {
-                        $('#sync').text('ON');
-                        $('#sync').css({'background-color': 'rgb(200, 200, 200)'});
-                    }
-                    lights.forEach(element => {
-                        element.delay = ($('#sync').text() === 'ON') ? 0 : Math.random() * 500;
-                        element.startBlink();
-                    });
-                }
+                    /*我不會寫同步QQ*/
     
                 function dutyCycle() {
                     if ($('#dutyCycleA').css('background-color') === 'rgb(100, 100, 100)') {
